@@ -25,26 +25,51 @@ MongoClient.connect(url, function(err, db) {
 
 // Finding the data from mongodb
 MongoClient.connect(url, function(err, db) {
-    if (err) throw err;
-    var dbo = db.db("userData");
+    if (err) throw err
+    var dbo = db.db("userData")
     dbo.collection("customers").find({}).toArray(function(err, result) {
-      if (err) throw err;
-      console.log(result);
-      db.close();
-    });
-  });
+      if (err) throw err
+      console.log(result)
+      db.close()
+    })
+  })
 
 // Finding and Sorting the result
 MongoClient.connect(url, function(err, db) {
-    if (err) throw err;
-    var dbo = db.db("userData");
-    var mySort = { name: 1 }; // -1 for descending or 1 for ascending
+    if (err) throw err
+    var dbo = db.db("userData")
+    var mySort = { name: 1 } // -1 for descending or 1 for ascending
     dbo.collection("customers").find().sort(mySort).toArray(function(err, result) {
-      if (err) throw err;
-      console.log(result);
-      db.close();
-    });
-  });
+      if (err) throw err
+      console.log(result)
+      db.close()
+    })
+  })
+
+// Delete one document data from mongoDB
+MongoClient.connect(url, function(err, db) {
+    if (err) throw err
+    var dbo = db.db("userData")
+    var myQuery = { address: 'Mountain 21' }
+    dbo.collection("customers").deleteOne(myQuery, function(err, obj) {
+      if (err) throw err
+      console.log("1 document deleted")
+      db.close()
+    })
+  })
+
+// Updating one data
+MongoClient.connect(url, function(err, db) {
+    if (err) throw err
+    var dbo = db.db("userData")
+    var myQuery = { address: "Valley 345" }
+    var newValues = { $set: {name: "Ritul", address: "Noida" } };
+    dbo.collection("customers").updateOne(myQuery, newValues, function(err, res) {
+      if (err) throw err
+      console.log("1 document updated")
+      db.close()
+    })
+  })
 
 // var url = "mongodb://localhost";
 // const mongoConn = new MongoClient(url);
